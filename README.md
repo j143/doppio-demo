@@ -1,7 +1,7 @@
 Doppio Demo
 ===========
 
-Demo of the Doppio Runtime System.
+Demo of the Doppio Runtime System. [Click here to enter the demo.](https://plasma-umass.github.io/doppio-demo)
 
 Links:
 
