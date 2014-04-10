@@ -1,24 +1,20 @@
-Doppio: Breaking the Browser Language Barrier Artifact Guide
+DoppioJVM
 ===============================
-[Link to the paper.](paper.pdf)
+[Link to the paper on Doppio and DoppioJVM](paper.pdf)
 
-Our artifact consists of two components:
+**DoppioJVM** is a Java Virtual Machine interpreter written in [TypeScript](http://www.typescriptlang.org/) that runs on top of the Doppio runtime system, which is also written in TypeScript. It is able to run unmodified JVM bytecode programs in the browser with *no plugins* and *no server software*.
 
-- **DoppioJVM**: A Java Virtual Machine interpreter written in JavaScript that runs on top of the Doppio runtime system, which is also written in JavaScript. It is able to run unmodified JVM bytecode programs in the browser with no plugins required.
-- **Emscripten Demo**: A demo of an Emscripten-compiled game written in C++ using the Doppio file system to persistently store save data to browser-local storage. The game is unchanged; we merely augment the Emscripten environment with the Doppio file system.
+<a target="_blank" href="doppiojvm/index.html"><h2 style="text-align: center;">Enter the DoppioJVM Online Demo</h2></a>
 
-Below, we provide a guide for each component, and the claims that we are making about each.
+Below, we provide a guide for fun things you can do with the demo, with pointers to the paper for further information.
 
-### Conflicts of Interest
-
-We have a conflict of interest with both Daniel Barowy and Charlie Curtsinger on the artifact evaluation committee, as they are both members of the lab that produced this research.
 
 ### Offline Version
 
-You can grab an offline version of this demo by cloning this git repository.
+You can grab an offline version of this demo by cloning this git repository. The offline version should reduce execution delay caused by network latency as DoppioJVM downloads individual class files over the network.
 
 ```
-git clone https://github.com/jvilk/doppio-demo
+git clone https://github.com/plasma-umass/doppio-demo
 cd doppio-demo
 git checkout gh-pages
 ```
@@ -32,13 +28,12 @@ The offline version of this demo requires the following software:
 
 To launch the offline version of the demo, merely run `http-server` in the repository folder and navigate to [`http://localhost:8080/`](http://localhost:8080).
 
-DoppioJVM artifact guide
-------------------------
+DoppioJVM Guide
+---------------
 DoppioJVM is a Java Virtual Machine interpreter written in JavaScript that runs on top of the Doppio runtime system, which is also written in JavaScript. It is a proof-of-concept of the Doppio runtime system.
 
 This guide contains useful information on the features available to you through the DoppioJVM demo, and some tips for fun things you can do with it. :)
 
-[Click here to enter the demo.](doppiojvm/index.html)
 
 ### DoppioJVM Claims
 
@@ -135,7 +130,7 @@ Note that we currently don't process any fields in the JAR file's manifest other
 
 #### Drop into a REPL of a different language
 
-The DoppioJVM demo ships with two JVM language implementations: An implementation of Scheme using Kawa-Scheme, and an implementation of JavaScript using Rhino (how meta... :) ).
+The DoppioJVM demo ships with two JVM language implementations: An implementation of Scheme using Kawa-Scheme, and an implementation of JavaScript using Rhino.
 
 To drop into the Kawa-Scheme repl, use the `kawa` command. You can also use `kawa -f file.sch` to execute a Scheme file in the filesystem.
 
@@ -165,7 +160,7 @@ If you wish to compare performance to the Java interpreter like we do in the pap
 
 DoppioJVM emulates Java's TCP sockets in terms of WebSockets. As a demonstration, we provide a simple TCP server and client with this demo. Here are instructions on how to use it.
 
-Note that you should use the offline DoppioJVM package for this to avoid port forwarding snafus.
+Note that you should use the offline DoppioJVM package for this.
 
 - Download and extract [Websockify](https://github.com/kanaka/websockify/archive/v0.5.1.zip) to your computer.
 - In the command prompt, enter the `websockify-0.5.1` directory and type `make`.
@@ -188,11 +183,11 @@ Any files stored in `/mnt/localStorage` or `/mnt/html5fs` (the latter is only av
 
 #### Connect to Dropbox
 
+**NOTE**: This only works from `https` URLs, *or* from a locally hosted (`http://localhost:8000`) copy.
+
 Doppio's filesystem supports Dropbox cloud storage accounts. Use the `mount_dropbox` command for more information. Note that you will need to use this command a second time after you have logged in to complete the mounting process.
 
-Please note that using this feature will *not* reveal your identity to the artifact authors. The artifact authors can see the **number** of users that have used our API key to connect to Dropbox, but not their **identity**.
-
-If you would like, you can use your own API key; development keys are free. You must sign up for one at the [Dropbox Application Console](https://www.dropbox.com/developers/apps). Make sure you add the appropriate OAuth Redirect URI (`http://localhost:8080/doppiojvm/index.html` for a locally-served demo). Use the `mount_dropbox` command with no arguments for syntax information.
+While the demo uses its own API key, you can use your own API key; development keys are free. You must sign up for one at the [Dropbox Application Console](https://www.dropbox.com/developers/apps). Make sure you add the appropriate OAuth Redirect URI (`http://localhost:8080/doppiojvm/index.html` for a locally-served demo). Use the `mount_dropbox` command with no arguments for syntax information.
 
 Once you've connected to Dropbox, navigate to `/mnt/dropbox`. Feel free to create files using the `edit` command, and watch as your native Dropbox client syncs them to your local computer. Or, pop files into the `Apps/DoppioJVM` Dropbox folder, and use `ls` to see them in the DoppioJVM terminal. Note that sometimes Dropbox is slow to sync; check Dropbox's syncing progress in your system tray.
 
@@ -249,48 +244,4 @@ Of course, DoppioJVM isn't perfect. Here are some issues you might run into, esp
 
 ### Reporting Bugs
 
-While reviewers have a need to stay anonymous, it would be nice if you could somehow anonymously funnel any bugs you find to our [GitHub issue tracker](https://github.com/int3/doppio/issues). You can also contact the authors directly. Thanks!
-
-Emscripten Demo artifact guide
-------------------------------
-The Emscripten demo (in the `emscripten` subdirectory of the demo folder) demonstrates the following:
-
-- A C++ application that has been ported to Emscripten is able to use the Doppio file system without any changes.
-- The Doppio file system integrates seamlessly into the Emscripten environment.
-- Using the Doppio file system, Emscripten does not need to preload the entire file system into memory prior to execution. Instead, it is able to load files as the application requests them.
-
-§2.1 explains some of the limitations of Emscripten's approach to bringing C++ applications to the web, and §7.2 explains this evaluation.
-
-The C++ application in question is an Emscripten port of the open source game [Me and My Shadow](http://meandmyshadow.sourceforge.net/). 
-
-### Vanilla Emscripten Verison
-
-The original Emscripten port can be played [here](emscripten/mams/mams.html).
-
-Things to do:
-
-- Note that Emscripten preloads all of the game's assets prior to starting it.
-- Complete a level by guiding the character to the door using the arrow keys.
-- Use ESC to go back to the level selection screen.
-- Note that your progress has not been saved at all. You must start again at the first level.
-
-### Emscripten+Doppio Version
-
-Now, try our version that embeds Doppio's file system into Emscripten's file system. You can access this [here](emscripten/mams-doppio/mams.html).
-
-Things to do:
-
-- Note that we do not preload all game assets at once; instead, we download them as the game requests them.
-  - This does not increase the *responsiveness* of the game as it can cause unwanted pauses during gameplay, but it reduces startup time and prevents the developer from needing to explicitly bundle files together.
-- Complete a level by guiding the character to the door using the arrow keys.
-- Use ESC to go back to the level selection screen.
-- Note that your progress is saved!
-- Close the web browser.
-- Open the web browser, and navigate back to the web page.
-- Go back to the level selection screen. Note that your progress is still saved. :)
-
-### Caveats
-
-In both versions, the "Addons" and "Map Editor" menu items do not function. The first is likely an Emscripten bug. The latter is due to the program attempting to synchronously poll for input. Unlike DoppioJVM, Emscripten cannot emulate synchronous C++ features in terms of asynchronous browser functionality (§2.1). And since the browser has only asynchronous APIs for processing input\*, this feature of "Me and My Shadow" will remain unsupported in Emscripten until someone refactors the code to use asynchronous C++ APIs.
-
-\* [`window.prompt`](https://developer.mozilla.org/en-US/docs/Web/API/Window.prompt) is the one exception.
+Please report any bugs you have to our [GitHub issue tracker](https://github.com/int3/doppio/issues). You can also contact the authors directly. Thanks!
