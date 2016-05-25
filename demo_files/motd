@@ -1,0 +1,23 @@
+Welcome to the DoppioJVM demo!
+
+This demo comes packed with a number of JVM languages (Scala, Groovy, Scheme),
+some basic programs and utilities (javac, accounting software), and standard
+shell commands that interact with our in-browser filesystem!
+
+For example, try a simple Fibonacci demo:    java classes/demo/Fib <num>
+
+Then, edit the demo, recompile it, and run the new version:
+
+  edit classes/demo/Fib.java
+  javac classes/demo/Fib.java
+  java classes/demo/Fib
+
+Hop into Clojure's repl with the `clojure` command. Or try `nashorn`, a
+repl for JavaScript running on the JVM!
+
+Type `help` for more information, or `tip` for an idea. Ctrl+C is SIGINT.
+Tab-completion and globbing should mimic commonly used bash features.
+
+DoppioJVM has been tested with the latest versions of most popular browsers,
+but if you find a bug or have a question, let us know on Github at:
+https://github.com/plasma-umass/doppio/issues

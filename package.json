@@ -1,0 +1,37 @@
+{
+  "name": "doppio-demo",
+  "version": "0.0.1",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jvilk/doppio-demo"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jvilk/doppio-demo/issues"
+  },
+  "homepage": "https://github.com/jvilk/doppio-demo",
+  "devDependencies": {
+    "async": "^1.5.2",
+    "browserfs": "^0.5.11",
+    "coffee-script": "^1.10.0",
+    "dropbox": "^0.10.3",
+    "glob": "^7.0",
+    "grunt": "^1.0",
+    "grunt-contrib-compress": "^1.2.0",
+    "grunt-contrib-copy": "^1.0",
+    "grunt-contrib-watch": "^1.0",
+    "grunt-mustache-render": "^1.9",
+    "grunt-webpack": "^1.0.11",
+    "json-loader": "^0.5.4",
+    "locate-java-home": "^0.1.5",
+    "mustache": "^2.2",
+    "semver": "^5.1.0",
+    "ts-loader": "^0.8.0",
+    "typescript": "^1.7.5",
+    "underscore": "^1.8.3",
+    "webpack": "^1.13",
+    "webpack-dev-server": "^1.14.1",
+    "xterm": "^0.33.0"
+  }
+}
